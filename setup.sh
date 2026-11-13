@@ -65,9 +65,18 @@ echo "  aosp-gaps: разложены"
 # 5. Тег для external/iw (git describe в version.sh)
 if [ -d .git ]; then git tag -a -f v4.1 -m v4.1 >/dev/null 2>&1 || true; fi
 
-# 6. Блобы
+# 6. vendor: decatf (открытые компоненты) из репо + блобы Acer
+rm -rf vendor/decatf
+if [ -d "$SCRIPT_DIR/vendor/decatf" ]; then
+  cp -a "$SCRIPT_DIR/vendor/decatf" vendor/
+  echo "  vendor/decatf: разложен (webview, Launcher3, busybox, addon.d)"
+else
+  echo "  FATAL: нет vendor/decatf в репо"
+  exit 1
+fi
 if [ ! -d vendor/acer/picasso/proprietary ]; then
-  echo "  ВНИМАНИЕ: нет vendor/acer/picasso — извлеките блобы extract-blobs.sh"
+  echo "  ВНИМАНИЕ: нет vendor/acer/picasso (блобы) — извлеките extract-blobs.sh"
+  echo "  БЕЗ блобов сборка даст систему без NVIDIA/Broadcom библиотек!"
 fi
 
 # 7. Проверка
