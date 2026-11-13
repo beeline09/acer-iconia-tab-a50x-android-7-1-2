@@ -2530,7 +2530,7 @@ index 1dd631a..411a251 100644
  
              notify(OMX_EventError, OMX_ErrorUndefined, 0, NULL);
 diff --git a/frameworks/av/media/libstagefright/codecs/m4v_h263/dec/src/vlc_decode.cpp b/frameworks/av/media/libstagefright/codecs/m4v_h263/dec/src/vlc_decode.cpp
-index f7192b1..7202f982 100644
+index f7192b1..7202f98 100644
 --- a/frameworks/av/media/libstagefright/codecs/m4v_h263/dec/src/vlc_decode.cpp
 +++ b/frameworks/av/media/libstagefright/codecs/m4v_h263/dec/src/vlc_decode.cpp
 @@ -560,7 +560,7 @@ int PV_VlcDecMCBPC_com_inter_H263(BitstreamDecVideo *stream)
@@ -7857,6 +7857,123 @@ index 011884c..ac31d62 100644
      <application android:process="system"
                   android:persistent="true"
                   android:hasCode="false"
+diff --git a/frameworks/base/core/res/res/drawable/ic_lock_power_reboot.xml b/frameworks/base/core/res/res/drawable/ic_lock_power_reboot.xml
+new file mode 100644
+index 0000000..82c7927
+--- /dev/null
++++ b/frameworks/base/core/res/res/drawable/ic_lock_power_reboot.xml
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (c) 2014, The Linux Foundation. All rights reserved.
++
++     Redistribution and use in source and binary forms, with or without
++     modification, are permitted provided that the following conditions are
++     met:
++         * Redistributions of source code must retain the above copyright
++           notice, this list of conditions and the following disclaimer.
++         * Redistributions in binary form must reproduce the above
++           copyright notice, this list of conditions and the following
++           disclaimer in the documentation and/or other materials provided
++           with the distribution.
++         * Neither the name of The Linux Foundation nor the names of its
++           contributors may be used to endorse or promote products derived
++           from this software without specific prior written permission.
++
++     THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
++     WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
++     ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
++     BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
++     CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
++     SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
++     BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
++     WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
++     OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
++     IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++    android:src="@drawable/ic_lock_power_reboot_alpha"
++    android:tint="?attr/colorControlNormal" />
++
+diff --git a/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif.xml b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif.xml
+new file mode 100644
+index 0000000..6b2dcc4
+--- /dev/null
++++ b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++     Copyright (C) 2017 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:drawable="@drawable/ic_audio_ring_notif" />
++</selector>
+diff --git a/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_mute.xml b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_mute.xml
+new file mode 100644
+index 0000000..dab250c
+--- /dev/null
++++ b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_mute.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++     Copyright (C) 2017 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:drawable="@drawable/ic_audio_ring_notif_mute" />
++</selector>
+diff --git a/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_vibrate.xml b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_vibrate.xml
+new file mode 100644
+index 0000000..f278ccb
+--- /dev/null
++++ b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_vibrate.xml
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!--
++     Copyright (C) 2017 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:drawable="@drawable/ic_audio_ring_notif_vibrate" />
++</selector>
 diff --git a/frameworks/base/core/res/res/drawable-hdpi/ic_lock_power_reboot_alpha.png b/frameworks/base/core/res/res/drawable-hdpi/ic_lock_power_reboot_alpha.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..17b4866832206a0035c748a198d6a28c725636a5
@@ -7994,123 +8111,6 @@ u^GA#H>@w!fvF0iNx@u0hdwExa*#)}0;jcxa%Cbbjh9t2w#1+Ctd4B^WQRo){
 literal 0
 HcmV?d00001
 
-diff --git a/frameworks/base/core/res/res/drawable/ic_lock_power_reboot.xml b/frameworks/base/core/res/res/drawable/ic_lock_power_reboot.xml
-new file mode 100644
-index 0000000..82c7927
---- /dev/null
-+++ b/frameworks/base/core/res/res/drawable/ic_lock_power_reboot.xml
-@@ -0,0 +1,33 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<!-- Copyright (c) 2014, The Linux Foundation. All rights reserved.
-+
-+     Redistribution and use in source and binary forms, with or without
-+     modification, are permitted provided that the following conditions are
-+     met:
-+         * Redistributions of source code must retain the above copyright
-+           notice, this list of conditions and the following disclaimer.
-+         * Redistributions in binary form must reproduce the above
-+           copyright notice, this list of conditions and the following
-+           disclaimer in the documentation and/or other materials provided
-+           with the distribution.
-+         * Neither the name of The Linux Foundation nor the names of its
-+           contributors may be used to endorse or promote products derived
-+           from this software without specific prior written permission.
-+
-+     THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
-+     WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-+     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
-+     ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
-+     BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-+     CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-+     SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-+     BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-+     WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-+     OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
-+     IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+-->
-+
-+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-+    android:src="@drawable/ic_lock_power_reboot_alpha"
-+    android:tint="?attr/colorControlNormal" />
-+
-diff --git a/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif.xml b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif.xml
-new file mode 100644
-index 0000000..6b2dcc4
---- /dev/null
-+++ b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif.xml
-@@ -0,0 +1,20 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<!--
-+     Copyright (C) 2017 The Android Open Source Project
-+
-+     Licensed under the Apache License, Version 2.0 (the "License");
-+     you may not use this file except in compliance with the License.
-+     You may obtain a copy of the License at
-+
-+          http://www.apache.org/licenses/LICENSE-2.0
-+
-+     Unless required by applicable law or agreed to in writing, software
-+     distributed under the License is distributed on an "AS IS" BASIS,
-+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+     See the License for the specific language governing permissions and
-+     limitations under the License.
-+-->
-+
-+<selector xmlns:android="http://schemas.android.com/apk/res/android">
-+    <item android:drawable="@drawable/ic_audio_ring_notif" />
-+</selector>
-diff --git a/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_mute.xml b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_mute.xml
-new file mode 100644
-index 0000000..dab250c
---- /dev/null
-+++ b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_mute.xml
-@@ -0,0 +1,20 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<!--
-+     Copyright (C) 2017 The Android Open Source Project
-+
-+     Licensed under the Apache License, Version 2.0 (the "License");
-+     you may not use this file except in compliance with the License.
-+     You may obtain a copy of the License at
-+
-+          http://www.apache.org/licenses/LICENSE-2.0
-+
-+     Unless required by applicable law or agreed to in writing, software
-+     distributed under the License is distributed on an "AS IS" BASIS,
-+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+     See the License for the specific language governing permissions and
-+     limitations under the License.
-+-->
-+
-+<selector xmlns:android="http://schemas.android.com/apk/res/android">
-+    <item android:drawable="@drawable/ic_audio_ring_notif_mute" />
-+</selector>
-diff --git a/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_vibrate.xml b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_vibrate.xml
-new file mode 100644
-index 0000000..f278ccb
---- /dev/null
-+++ b/frameworks/base/core/res/res/drawable/ic_power_audio_ring_notif_vibrate.xml
-@@ -0,0 +1,20 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<!--
-+     Copyright (C) 2017 The Android Open Source Project
-+
-+     Licensed under the Apache License, Version 2.0 (the "License");
-+     you may not use this file except in compliance with the License.
-+     You may obtain a copy of the License at
-+
-+          http://www.apache.org/licenses/LICENSE-2.0
-+
-+     Unless required by applicable law or agreed to in writing, software
-+     distributed under the License is distributed on an "AS IS" BASIS,
-+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+     See the License for the specific language governing permissions and
-+     limitations under the License.
-+-->
-+
-+<selector xmlns:android="http://schemas.android.com/apk/res/android">
-+    <item android:drawable="@drawable/ic_audio_ring_notif_vibrate" />
-+</selector>
 diff --git a/frameworks/base/core/res/res/layout/app_permission_item.xml b/frameworks/base/core/res/res/layout/app_permission_item.xml
 index 383d771..a80d40e 100644
 --- a/frameworks/base/core/res/res/layout/app_permission_item.xml
@@ -8320,82 +8320,6 @@ index 02dc2ed..d3baf68 100644
          android:elevation="8dp"
          android:nestedScrollingEnabled="true"
          android:divider="@null" />
-diff --git a/frameworks/base/core/res/res/values-mcc302-mnc220/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc220/config.xml
-index 422f7c9..e6ddadc 100644
---- a/frameworks/base/core/res/res/values-mcc302-mnc220/config.xml
-+++ b/frameworks/base/core/res/res/values-mcc302-mnc220/config.xml
-@@ -50,7 +50,7 @@
-         <item>ERR_ESTIMATE=0</item>
-         <item>INTERMEDIATE_POS=0</item>
-         <item>GPS_LOCK=0</item>
--        <item>SUPL_ES=0</item>
-+        <item>SUPL_ES=1</item>
-     </string-array>
- 
- </resources>
-diff --git a/frameworks/base/core/res/res/values-mcc302-mnc221/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc221/config.xml
-index 1444250..0f01f53 100644
---- a/frameworks/base/core/res/res/values-mcc302-mnc221/config.xml
-+++ b/frameworks/base/core/res/res/values-mcc302-mnc221/config.xml
-@@ -48,7 +48,7 @@
-         <item>ERR_ESTIMATE=0</item>
-         <item>INTERMEDIATE_POS=0</item>
-         <item>GPS_LOCK=0</item>
--        <item>SUPL_ES=0</item>
-+        <item>SUPL_ES=1</item>
-     </string-array>
- 
- </resources>
-diff --git a/frameworks/base/core/res/res/values-mcc302-mnc370/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc370/config.xml
-index 05265c7..9231691 100644
---- a/frameworks/base/core/res/res/values-mcc302-mnc370/config.xml
-+++ b/frameworks/base/core/res/res/values-mcc302-mnc370/config.xml
-@@ -59,7 +59,7 @@
-         <item>ERR_ESTIMATE=0</item>
-         <item>INTERMEDIATE_POS=0</item>
-         <item>GPS_LOCK=0</item>
--        <item>SUPL_ES=0</item>
-+        <item>SUPL_ES=1</item>
-     </string-array>
- 
- </resources>
-diff --git a/frameworks/base/core/res/res/values-mcc302-mnc610/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc610/config.xml
-index 0af2c39..b85da2b 100644
---- a/frameworks/base/core/res/res/values-mcc302-mnc610/config.xml
-+++ b/frameworks/base/core/res/res/values-mcc302-mnc610/config.xml
-@@ -43,6 +43,6 @@
-         <item>ERR_ESTIMATE=0</item>
-         <item>INTERMEDIATE_POS=0</item>
-         <item>GPS_LOCK=0</item>
--        <item>SUPL_ES=0</item>
-+        <item>SUPL_ES=1</item>
-     </string-array>
- </resources>
-diff --git a/frameworks/base/core/res/res/values-mcc302-mnc640/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc640/config.xml
-index e005bc0..0454c58 100644
---- a/frameworks/base/core/res/res/values-mcc302-mnc640/config.xml
-+++ b/frameworks/base/core/res/res/values-mcc302-mnc640/config.xml
-@@ -39,6 +39,6 @@
-         <item>ERR_ESTIMATE=0</item>
-         <item>INTERMEDIATE_POS=0</item>
-         <item>GPS_LOCK=0</item>
--        <item>SUPL_ES=0</item>
-+        <item>SUPL_ES=1</item>
-     </string-array>
- </resources>
-diff --git a/frameworks/base/core/res/res/values-mcc302-mnc720/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc720/config.xml
-index 7a3540a..eef85e1 100644
---- a/frameworks/base/core/res/res/values-mcc302-mnc720/config.xml
-+++ b/frameworks/base/core/res/res/values-mcc302-mnc720/config.xml
-@@ -61,7 +61,7 @@
-         <item>ERR_ESTIMATE=0</item>
-         <item>INTERMEDIATE_POS=0</item>
-         <item>GPS_LOCK=0</item>
--        <item>SUPL_ES=0</item>
-+        <item>SUPL_ES=1</item>
-     </string-array>
- 
- </resources>
 diff --git a/frameworks/base/core/res/res/values/arrays.xml b/frameworks/base/core/res/res/values/arrays.xml
 index e190bd1..6706812 100644
 --- a/frameworks/base/core/res/res/values/arrays.xml
@@ -8692,6 +8616,82 @@ index 08ac043..8341222 100644
 +  <java-symbol type="array" name="config_disabledComponents" />
 +  <java-symbol type="array" name="config_forceEnabledComponents" />
 +
+ </resources>
+diff --git a/frameworks/base/core/res/res/values-mcc302-mnc220/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc220/config.xml
+index 422f7c9..e6ddadc 100644
+--- a/frameworks/base/core/res/res/values-mcc302-mnc220/config.xml
++++ b/frameworks/base/core/res/res/values-mcc302-mnc220/config.xml
+@@ -50,7 +50,7 @@
+         <item>ERR_ESTIMATE=0</item>
+         <item>INTERMEDIATE_POS=0</item>
+         <item>GPS_LOCK=0</item>
+-        <item>SUPL_ES=0</item>
++        <item>SUPL_ES=1</item>
+     </string-array>
+ 
+ </resources>
+diff --git a/frameworks/base/core/res/res/values-mcc302-mnc221/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc221/config.xml
+index 1444250..0f01f53 100644
+--- a/frameworks/base/core/res/res/values-mcc302-mnc221/config.xml
++++ b/frameworks/base/core/res/res/values-mcc302-mnc221/config.xml
+@@ -48,7 +48,7 @@
+         <item>ERR_ESTIMATE=0</item>
+         <item>INTERMEDIATE_POS=0</item>
+         <item>GPS_LOCK=0</item>
+-        <item>SUPL_ES=0</item>
++        <item>SUPL_ES=1</item>
+     </string-array>
+ 
+ </resources>
+diff --git a/frameworks/base/core/res/res/values-mcc302-mnc370/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc370/config.xml
+index 05265c7..9231691 100644
+--- a/frameworks/base/core/res/res/values-mcc302-mnc370/config.xml
++++ b/frameworks/base/core/res/res/values-mcc302-mnc370/config.xml
+@@ -59,7 +59,7 @@
+         <item>ERR_ESTIMATE=0</item>
+         <item>INTERMEDIATE_POS=0</item>
+         <item>GPS_LOCK=0</item>
+-        <item>SUPL_ES=0</item>
++        <item>SUPL_ES=1</item>
+     </string-array>
+ 
+ </resources>
+diff --git a/frameworks/base/core/res/res/values-mcc302-mnc610/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc610/config.xml
+index 0af2c39..b85da2b 100644
+--- a/frameworks/base/core/res/res/values-mcc302-mnc610/config.xml
++++ b/frameworks/base/core/res/res/values-mcc302-mnc610/config.xml
+@@ -43,6 +43,6 @@
+         <item>ERR_ESTIMATE=0</item>
+         <item>INTERMEDIATE_POS=0</item>
+         <item>GPS_LOCK=0</item>
+-        <item>SUPL_ES=0</item>
++        <item>SUPL_ES=1</item>
+     </string-array>
+ </resources>
+diff --git a/frameworks/base/core/res/res/values-mcc302-mnc640/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc640/config.xml
+index e005bc0..0454c58 100644
+--- a/frameworks/base/core/res/res/values-mcc302-mnc640/config.xml
++++ b/frameworks/base/core/res/res/values-mcc302-mnc640/config.xml
+@@ -39,6 +39,6 @@
+         <item>ERR_ESTIMATE=0</item>
+         <item>INTERMEDIATE_POS=0</item>
+         <item>GPS_LOCK=0</item>
+-        <item>SUPL_ES=0</item>
++        <item>SUPL_ES=1</item>
+     </string-array>
+ </resources>
+diff --git a/frameworks/base/core/res/res/values-mcc302-mnc720/config.xml b/frameworks/base/core/res/res/values-mcc302-mnc720/config.xml
+index 7a3540a..eef85e1 100644
+--- a/frameworks/base/core/res/res/values-mcc302-mnc720/config.xml
++++ b/frameworks/base/core/res/res/values-mcc302-mnc720/config.xml
+@@ -61,7 +61,7 @@
+         <item>ERR_ESTIMATE=0</item>
+         <item>INTERMEDIATE_POS=0</item>
+         <item>GPS_LOCK=0</item>
+-        <item>SUPL_ES=0</item>
++        <item>SUPL_ES=1</item>
+     </string-array>
+ 
  </resources>
 diff --git a/frameworks/base/core/res/res/xml/config_webview_packages.xml b/frameworks/base/core/res/res/xml/config_webview_packages.xml
 index f062b59..e8c8b73 100644
@@ -17266,7 +17266,7 @@ index 590ff1b..8c96774 100644
                      dest.writeByte(result.secure ? (byte) 1 : 0);
                  }
 diff --git a/frameworks/base/wifi/java/android/net/wifi/WifiManager.java b/frameworks/base/wifi/java/android/net/wifi/WifiManager.java
-index e2d5ae38..92587c8 100644
+index e2d5ae3..92587c8 100644
 --- a/frameworks/base/wifi/java/android/net/wifi/WifiManager.java
 +++ b/frameworks/base/wifi/java/android/net/wifi/WifiManager.java
 @@ -1061,6 +1061,14 @@ public class WifiManager {
@@ -22690,3 +22690,381 @@ index 0000000..17f594c
 +
 +}
 +
+diff --git a/frameworks/support/v17/leanback/.classpath b/frameworks/support/v17/leanback/.classpath
+new file mode 100644
+index 0000000..f568681
+--- /dev/null
++++ b/frameworks/support/v17/leanback/.classpath
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
++	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
++	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
++	<classpathentry kind="src" path="src"/>
++	<classpathentry kind="src" path="api21"/>
++	<classpathentry kind="src" path="api23"/>
++	<classpathentry kind="src" path="jbmr2"/>
++	<classpathentry kind="src" path="common"/>
++	<classpathentry kind="src" path="kitkat"/>
++	<classpathentry kind="src" path="gen"/>
++	<classpathentry kind="output" path="bin/classes"/>
++</classpath>
+diff --git a/frameworks/support/v17/leanback/.project b/frameworks/support/v17/leanback/.project
+new file mode 100644
+index 0000000..9d191cd
+--- /dev/null
++++ b/frameworks/support/v17/leanback/.project
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>android-support-v17-leanback</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++	</natures>
++</projectDescription>
+diff --git a/frameworks/support/v17/leanback/project.properties b/frameworks/support/v17/leanback/project.properties
+new file mode 100644
+index 0000000..b2ef7dc
+--- /dev/null
++++ b/frameworks/support/v17/leanback/project.properties
+@@ -0,0 +1,15 @@
++# This file is automatically generated by Android Tools.
++# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
++#
++# This file must be checked in Version Control Systems.
++#
++# To customize properties used by the Ant build system edit
++# "ant.properties", and override values to adapt the script to your
++# project structure.
++#
++# To enable ProGuard to shrink and obfuscate your code, uncomment this (available properties: sdk.dir, user.home):
++#proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
++
++# Project target.
++target=android-23
++android.library=true
+diff --git a/frameworks/support/v7/appcompat/.classpath b/frameworks/support/v7/appcompat/.classpath
+new file mode 100644
+index 0000000..a4763d1
+--- /dev/null
++++ b/frameworks/support/v7/appcompat/.classpath
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="src" path="src"/>
++	<classpathentry kind="src" path="gen"/>
++	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
++	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
++	<classpathentry kind="output" path="bin/classes"/>
++</classpath>
+diff --git a/frameworks/support/v7/appcompat/.project b/frameworks/support/v7/appcompat/.project
+new file mode 100644
+index 0000000..957d33d
+--- /dev/null
++++ b/frameworks/support/v7/appcompat/.project
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>android-support-v7-appcompat</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++	</natures>
++</projectDescription>
+diff --git a/frameworks/support/v7/appcompat/project.properties b/frameworks/support/v7/appcompat/project.properties
+new file mode 100644
+index 0000000..91d2b02
+--- /dev/null
++++ b/frameworks/support/v7/appcompat/project.properties
+@@ -0,0 +1,15 @@
++# This file is automatically generated by Android Tools.
++# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
++#
++# This file must be checked in Version Control Systems.
++#
++# To customize properties used by the Ant build system edit
++# "ant.properties", and override values to adapt the script to your
++# project structure.
++#
++# To enable ProGuard to shrink and obfuscate your code, uncomment this (available properties: sdk.dir, user.home):
++#proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
++
++# Project target.
++target=android-19
++android.library=true
+diff --git a/frameworks/support/v7/gridlayout/.classpath b/frameworks/support/v7/gridlayout/.classpath
+new file mode 100644
+index 0000000..a4763d1
+--- /dev/null
++++ b/frameworks/support/v7/gridlayout/.classpath
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="src" path="src"/>
++	<classpathentry kind="src" path="gen"/>
++	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
++	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
++	<classpathentry kind="output" path="bin/classes"/>
++</classpath>
+diff --git a/frameworks/support/v7/gridlayout/.project b/frameworks/support/v7/gridlayout/.project
+new file mode 100644
+index 0000000..1e67516
+--- /dev/null
++++ b/frameworks/support/v7/gridlayout/.project
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>android-support-v7-gridlayout</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++	</natures>
++</projectDescription>
+diff --git a/frameworks/support/v7/gridlayout/project.properties b/frameworks/support/v7/gridlayout/project.properties
+new file mode 100644
+index 0000000..1e106c3
+--- /dev/null
++++ b/frameworks/support/v7/gridlayout/project.properties
+@@ -0,0 +1,15 @@
++# This file is automatically generated by Android Tools.
++# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
++#
++# This file must be checked in Version Control Systems.
++#
++# To customize properties used by the Ant build system edit
++# "ant.properties", and override values to adapt the script to your
++# project structure.
++#
++# To enable ProGuard to shrink and obfuscate your code, uncomment this (available properties: sdk.dir, user.home):
++#proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
++
++# Project target.
++target=android-7
++android.library=true
+\ No newline at end of file
+diff --git a/frameworks/support/v7/mediarouter/.classpath b/frameworks/support/v7/mediarouter/.classpath
+new file mode 100644
+index 0000000..a4763d1
+--- /dev/null
++++ b/frameworks/support/v7/mediarouter/.classpath
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++	<classpathentry kind="src" path="src"/>
++	<classpathentry kind="src" path="gen"/>
++	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
++	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
++	<classpathentry kind="output" path="bin/classes"/>
++</classpath>
+diff --git a/frameworks/support/v7/mediarouter/.project b/frameworks/support/v7/mediarouter/.project
+new file mode 100644
+index 0000000..2eca48b
+--- /dev/null
++++ b/frameworks/support/v7/mediarouter/.project
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>android-support-v7-mediarouter</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++	</natures>
++</projectDescription>
+diff --git a/frameworks/support/v7/mediarouter/project.properties b/frameworks/support/v7/mediarouter/project.properties
+new file mode 100644
+index 0000000..484dab0
+--- /dev/null
++++ b/frameworks/support/v7/mediarouter/project.properties
+@@ -0,0 +1,15 @@
++# This file is automatically generated by Android Tools.
++# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
++#
++# This file must be checked in Version Control Systems.
++#
++# To customize properties used by the Ant build system edit
++# "ant.properties", and override values to adapt the script to your
++# project structure.
++#
++# To enable ProGuard to shrink and obfuscate your code, uncomment this (available properties: sdk.dir, user.home):
++#proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
++
++# Project target.
++target=android-17
++android.library=true
+diff --git a/frameworks/support/v7/palette/.classpath b/frameworks/support/v7/palette/.classpath
+new file mode 100644
+index 0000000..43cb38c
+--- /dev/null
++++ b/frameworks/support/v7/palette/.classpath
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<classpath>
++    <classpathentry kind="src" path="src"/>
++    <classpathentry kind="src" path="gen"/>
++    <classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
++    <classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
++    <classpathentry kind="output" path="bin/classes"/>
++</classpath>
+diff --git a/frameworks/support/v7/palette/.project b/frameworks/support/v7/palette/.project
+new file mode 100644
+index 0000000..76e11a6
+--- /dev/null
++++ b/frameworks/support/v7/palette/.project
+@@ -0,0 +1,33 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++    <name>android-support-v7-palette</name>
++    <comment></comment>
++    <projects>
++    </projects>
++    <buildSpec>
++        <buildCommand>
++            <name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
++            <arguments>
++            </arguments>
++        </buildCommand>
++        <buildCommand>
++            <name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
++            <arguments>
++            </arguments>
++        </buildCommand>
++        <buildCommand>
++            <name>org.eclipse.jdt.core.javabuilder</name>
++            <arguments>
++            </arguments>
++        </buildCommand>
++        <buildCommand>
++            <name>com.android.ide.eclipse.adt.ApkBuilder</name>
++            <arguments>
++            </arguments>
++        </buildCommand>
++    </buildSpec>
++    <natures>
++        <nature>com.android.ide.eclipse.adt.AndroidNature</nature>
++        <nature>org.eclipse.jdt.core.javanature</nature>
++    </natures>
++</projectDescription>
+diff --git a/frameworks/support/v7/palette/project.properties b/frameworks/support/v7/palette/project.properties
+new file mode 100644
+index 0000000..1e106c3
+--- /dev/null
++++ b/frameworks/support/v7/palette/project.properties
+@@ -0,0 +1,15 @@
++# This file is automatically generated by Android Tools.
++# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
++#
++# This file must be checked in Version Control Systems.
++#
++# To customize properties used by the Ant build system edit
++# "ant.properties", and override values to adapt the script to your
++# project structure.
++#
++# To enable ProGuard to shrink and obfuscate your code, uncomment this (available properties: sdk.dir, user.home):
++#proguard.config=${sdk.dir}/tools/proguard/proguard-android.txt:proguard-project.txt
++
++# Project target.
++target=android-7
++android.library=true
+\ No newline at end of file

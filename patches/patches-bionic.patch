@@ -189,7 +189,7 @@ index 76f465e..bac9bb0 100644
  
  #
 diff --git a/bionic/libc/arch-arm/cortex-a15/bionic/strcmp.S b/bionic/libc/arch-arm/cortex-a15/bionic/strcmp.S
-index acedf0ec..71f0f03 100644
+index acedf0e..71f0f03 100644
 --- a/bionic/libc/arch-arm/cortex-a15/bionic/strcmp.S
 +++ b/bionic/libc/arch-arm/cortex-a15/bionic/strcmp.S
 @@ -1,5 +1,5 @@
@@ -1512,7 +1512,7 @@ index 8a26d6b..5b480be 100644
 +endif
 diff --git a/bionic/libc/arch-arm/generic/bionic/memchr.S b/bionic/libc/arch-arm/generic/bionic/memchr.S
 new file mode 100644
-index 0000000..cb00d82a2
+index 0000000..cb00d82
 --- /dev/null
 +++ b/bionic/libc/arch-arm/generic/bionic/memchr.S
 @@ -0,0 +1,155 @@
