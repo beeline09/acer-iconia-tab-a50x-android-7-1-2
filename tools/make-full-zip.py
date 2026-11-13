@@ -58,11 +58,11 @@ def add_tree(z, src_dir, arc_root):
 
 
 z = zipfile.ZipFile(OUT, "w", zipfile.ZIP_DEFLATED)
-add_file(z, os.path.join(SRC, "tools/update-binary"),
+add_file(z, os.path.join(SRC, "update-binary"),
          "META-INF/com/google/android/update-binary", 0o755)
 add_file(z, BOOT, "boot.img", 0o755)
-add_file(z, os.path.join(SRC, "tools/fixperms/fixperms.sh"), "fixperms/fixperms.sh", 0o755)
-add_file(z, os.path.join(SRC, "tools/META-INF/com/google/android/updater-script"),
+add_file(z, os.path.join(SRC, "fixperms/fixperms.sh"), "fixperms/fixperms.sh", 0o755)
+add_file(z, os.path.join(SRC, "META-INF/com/google/android/updater-script"),
          "META-INF/com/google/android/updater-script")
 n = add_tree(z, SYS, "system")
 z.close()
