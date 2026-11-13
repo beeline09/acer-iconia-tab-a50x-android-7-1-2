@@ -18,10 +18,11 @@ else
 fi
 
 
-# 2. hardware/broadcom (драйверы Wi-Fi/BT bcmdhd — исходники, не патч)
+# 2. hardware: broadcom (драйверы Wi-Fi/BT bcmdhd) + libhardware_legacy (wifi HAL c wifi_set_mode)
 mkdir -p hardware
-rm -rf hardware/broadcom
+rm -rf hardware/broadcom hardware/libhardware_legacy
 cp -a "$SCRIPT_DIR/hardware/broadcom" hardware/
+cp -a "$SCRIPT_DIR/hardware/libhardware_legacy" hardware/
 
 # 3. Device trees
 mkdir -p device/acer device/samsung vendor/acer
