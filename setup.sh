@@ -9,21 +9,17 @@ echo "=== picasso setup: AOSP=$AOSP_ROOT, repo=$SCRIPT_DIR ==="
 
 [ -d "$AOSP_ROOT/build/core" ] || { echo "FATAL: запустите из корня AOSP"; exit 1; }
 
-# 1. Ядро кладём в дерево (собирается ОТДЕЛЬНО tools/build-kernel.sh; в AOSP — prebuilt)
-if [ ! -f "$SCRIPT_DIR/kernel/acer/picasso/build.sh" ]; then
-  echo "FATAL: нет kernel/acer/picasso в репо"; exit 1
-fi
-mkdir -p kernel/acer
-[ -d kernel/acer/picasso ] || cp -a "$SCRIPT_DIR/kernel/acer/picasso" kernel/acer/
-
-# 2. Ядро: либо готовый zImage-final, либо собрать
+# 1. Ядро собирается ОТДЕЛЬНО (в репо), в AOSP — ТОЛЬКО prebuilt-файл.
+#    ВАЖНО: внутри-AOSP сборка ядра для этого дерева НЕ поддерживается
+#    (старое ядро 3.8 + Lineage kernel.mk = каскад ошибок). Убираем из дерева.
+rm -rf kernel/acer/picasso
 if [ -f "$SCRIPT_DIR/kernel/acer/picasso/zImage-final" ]; then
   cp "$SCRIPT_DIR/kernel/acer/picasso/zImage-final" "$SCRIPT_DIR/device/acer/picasso/kernel"
 elif [ -f kernel/acer/picasso/zImage-final ]; then
   cp kernel/acer/picasso/zImage-final "$SCRIPT_DIR/device/acer/picasso/kernel"
-  echo "  kernel: zImage-final скопирован из дерева сборки"
+  echo "  kernel: zImage-final скопирован"
 else
-  echo "  WARN: zImage-final не найден — соберите ядро: tools/build-kernel.sh (нужен arm-eabi-4.8)"
+  echo "  WARN: zImage-final не найден — соберите ядро: ./build-all.sh или kernel build.sh"
 fi
 
 # 3. Device trees
@@ -32,7 +28,12 @@ rm -rf device/acer/picasso device/samsung/p4-common
 cp -a "$SCRIPT_DIR/device/acer/picasso" device/acer/
 cp -a "$SCRIPT_DIR/device/samsung/p4-common" device/samsung/
 
-# 4. Патчи платформы (полные git-binary; повторный запуск безопасен)
+# 4. Патчи платформы (полные git-binary; повторный запуск безопасен).
+#    ВАЖНО: внутренние .gitignore проектов (напр. system/bt/.gitignore "third_party")
+#    прячут файлы от git add/clean — чистим каталоги патчей с -x, иначе "already exists"
+for d in build/core frameworks/base frameworks/native system/bt system/core; do
+  git clean -qfdx -- "$d" 2>/dev/null || true
+done
 shopt -s nullglob
 for patchfile in "$SCRIPT_DIR"/patches/*.patch; do
   base=$(basename "$patchfile" .patch)
