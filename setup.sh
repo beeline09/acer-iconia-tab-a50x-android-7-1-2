@@ -31,7 +31,7 @@ cp -a "$SCRIPT_DIR/device/samsung/p4-common" device/samsung/
 # 4. Патчи платформы (полные git-binary; повторный запуск безопасен).
 #    ВАЖНО: внутренние .gitignore проектов (напр. system/bt/.gitignore "third_party")
 #    прячут файлы от git add/clean — чистим каталоги патчей с -x, иначе "already exists"
-for d in build/core frameworks/base frameworks/native system/bt system/core; do
+for d in build/core frameworks/base frameworks/native system/bt system/core system/sepolicy; do
   git clean -qfdx -- "$d" 2>/dev/null || true
 done
 shopt -s nullglob
