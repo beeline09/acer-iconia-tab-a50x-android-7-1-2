@@ -1,0 +1,357 @@
+diff --git a/libcore/JavaLibrary.mk b/libcore/JavaLibrary.mk
+index 6003675..066330e 100644
+--- a/libcore/JavaLibrary.mk
++++ b/libcore/JavaLibrary.mk
+@@ -39,6 +39,7 @@
+ 
+ include $(LOCAL_PATH)/openjdk_java_files.mk
+ include $(LOCAL_PATH)/non_openjdk_java_files.mk
++$(warning OJ-PROBE after-include count=$(words $(openjdk_java_files)))
+ 
+ define all-test-java-files-under
+ $(foreach dir,$(1),$(patsubst ./%,%,$(shell cd $(LOCAL_PATH) && (find $(dir)/src/test/java -name "*.java" 2> /dev/null) | grep -v -f java_tests_blacklist)))
+@@ -104,6 +105,7 @@ LOCAL_JAVACFLAGS := $(local_javac_flags)
+ LOCAL_DX_FLAGS := --core-library
+ LOCAL_MODULE_TAGS := optional
+ LOCAL_JAVA_LANGUAGE_VERSION := 1.8
++$(warning OJ-PROBE module-at-107 count=$(words $(openjdk_java_files)))
+ LOCAL_MODULE := core-oj
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/JavaLibrary.mk
+ LOCAL_JAVA_LIBRARIES := core-all
+diff --git a/libcore/dalvik/src/main/java/dalvik/system/ZygoteHooks.java b/libcore/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+index b29b895..c96016f 100644
+--- a/libcore/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
++++ b/libcore/dalvik/src/main/java/dalvik/system/ZygoteHooks.java
+@@ -69,7 +69,7 @@ public final class ZygoteHooks {
+      * {@code postForkChild}.
+      */
+     public void postForkCommon() {
+-        Daemons.start();
++        Daemons.startPostZygoteFork();
+     }
+ 
+     private static native long nativePreFork();
+diff --git a/libcore/libart/src/main/java/dalvik/system/VMRuntime.java b/libcore/libart/src/main/java/dalvik/system/VMRuntime.java
+index e53e103..d037b6f 100644
+--- a/libcore/libart/src/main/java/dalvik/system/VMRuntime.java
++++ b/libcore/libart/src/main/java/dalvik/system/VMRuntime.java
+@@ -407,4 +407,9 @@ public final class VMRuntime {
+      * Should be called just once. Subsequent calls are ignored.
+      */
+     public static native void registerSensitiveThread();
++
++    /**
++     * Sets up the priority of the system daemon thread (caller).
++     */
++    public static native void setSystemDaemonThreadPriority();
+ }
+diff --git a/libcore/libart/src/main/java/java/lang/AndroidHardcodedSystemProperties.java b/libcore/libart/src/main/java/java/lang/AndroidHardcodedSystemProperties.java
+index 13e9317..7e79e28 100644
+--- a/libcore/libart/src/main/java/java/lang/AndroidHardcodedSystemProperties.java
++++ b/libcore/libart/src/main/java/java/lang/AndroidHardcodedSystemProperties.java
+@@ -87,7 +87,7 @@ public final class AndroidHardcodedSystemProperties {
+         // Hardcode MessagePattern apostrophe mode to be default. b/27265238
+         { "android.icu.text.MessagePattern.ApostropheMode", null },
+ 
+-        // Hardcode "sun.io.useCanonCaches" to use the default (on). b/28174137
++        // Hardcode "sun.io.useCanonCaches" to use the default (off). b/28174137, b/62301183
+         { "sun.io.useCanonCaches", null },
+         { "sun.io.useCanonPrefixCache", null },
+ 
+@@ -108,4 +108,3 @@ public final class AndroidHardcodedSystemProperties {
+         { "com.sun.security.preserveOldDCEncoding", null },
+     };
+ }
+-
+diff --git a/libcore/libart/src/main/java/java/lang/Daemons.java b/libcore/libart/src/main/java/java/lang/Daemons.java
+index 15a8ab6..0e2cb45 100644
+--- a/libcore/libart/src/main/java/java/lang/Daemons.java
++++ b/libcore/libart/src/main/java/java/lang/Daemons.java
+@@ -46,6 +46,13 @@ public final class Daemons {
+         HeapTaskDaemon.INSTANCE.start();
+     }
+ 
++    public static void startPostZygoteFork() {
++        ReferenceQueueDaemon.INSTANCE.startPostZygoteFork();
++        FinalizerDaemon.INSTANCE.startPostZygoteFork();
++        FinalizerWatchdogDaemon.INSTANCE.startPostZygoteFork();
++        HeapTaskDaemon.INSTANCE.startPostZygoteFork();
++    }
++
+     public static void stop() {
+         HeapTaskDaemon.INSTANCE.stop();
+         ReferenceQueueDaemon.INSTANCE.stop();
+@@ -61,12 +68,22 @@ public final class Daemons {
+     private static abstract class Daemon implements Runnable {
+         private Thread thread;
+         private String name;
++        private boolean postZygoteFork;
+ 
+         protected Daemon(String name) {
+             this.name = name;
+         }
+ 
+         public synchronized void start() {
++            startInternal();
++        }
++
++        public synchronized void startPostZygoteFork() {
++            postZygoteFork = true;
++            startInternal();
++        }
++
++        public void startInternal() {
+             if (thread != null) {
+                 throw new IllegalStateException("already running");
+             }
+@@ -75,7 +92,18 @@ public final class Daemons {
+             thread.start();
+         }
+ 
+-        public abstract void run();
++        public void run() {
++            if (postZygoteFork) {
++                // We don't set the priority before the Thread.start() call above because
++                // Thread.start() will call SetNativePriority and overwrite the desired native
++                // priority. We (may) use a native priority that doesn't have a corresponding
++                // java.lang.Thread-level priority (native priorities are more coarse-grained.)
++                VMRuntime.getRuntime().setSystemDaemonThreadPriority();
++            }
++            runInternal();
++        }
++
++        public abstract void runInternal();
+ 
+         /**
+          * Returns true while the current thread should continue to run; false
+@@ -141,7 +169,7 @@ public final class Daemons {
+             super("ReferenceQueueDaemon");
+         }
+ 
+-        @Override public void run() {
++        @Override public void runInternal() {
+             while (isRunning()) {
+                 Reference<?> list;
+                 try {
+@@ -173,7 +201,7 @@ public final class Daemons {
+             super("FinalizerDaemon");
+         }
+ 
+-        @Override public void run() {
++        @Override public void runInternal() {
+             // This loop may be performance critical, since we need to keep up with mutator
+             // generation of finalizable objects.
+             // We minimize the amount of work we do per finalizable object. For example, we avoid
+@@ -244,7 +272,7 @@ public final class Daemons {
+             super("FinalizerWatchdogDaemon");
+         }
+ 
+-        @Override public void run() {
++        @Override public void runInternal() {
+             while (isRunning()) {
+                 if (!sleepUntilNeeded()) {
+                     // We have been interrupted, need to see if this daemon has been stopped.
+@@ -419,7 +447,7 @@ public final class Daemons {
+             VMRuntime.getRuntime().stopHeapTaskProcessor();
+         }
+ 
+-        @Override public void run() {
++        @Override public void runInternal() {
+             synchronized (this) {
+                 if (isRunning()) {
+                   // Needs to be synchronized or else we there is a race condition where we start
+diff --git a/libcore/luni/src/test/java/libcore/java/io/FileTest.java b/libcore/luni/src/test/java/libcore/java/io/FileTest.java
+index 5d5317a..04de751 100644
+--- a/libcore/luni/src/test/java/libcore/java/io/FileTest.java
++++ b/libcore/luni/src/test/java/libcore/java/io/FileTest.java
+@@ -368,4 +368,25 @@ public class FileTest extends junit.framework.TestCase {
+         assertEquals("/foo/bar", new File("/foo/", "/bar/").getPath());
+         assertEquals("/foo/bar", new File("/foo", "/bar//").getPath());
+     }
++
++    // http://b/62301183
++    public void test_canonicalCachesAreOff() throws Exception {
++        File tempDir = createTemporaryDirectory();
++        File f1 = new File(tempDir, "testCannonCachesOff1");
++        f1.createNewFile();
++        File f2  = new File(tempDir, "testCannonCachesOff2");
++        f2.createNewFile();
++        File symlinkFile = new File(tempDir, "symlink");
++
++        // Create a symlink from symlink to f1 and populate canonical path cache
++        assertEquals(0, Runtime.getRuntime().exec("ln -s " + f1.getAbsolutePath() + " " + symlinkFile.getAbsolutePath()).waitFor());
++        assertEquals(symlinkFile.getCanonicalPath(), f1.getCanonicalPath());
++
++        // Remove it and replace it with a symlink to f2 (using java File/Files would flush caches).
++        assertEquals(0, Runtime.getRuntime().exec("rm " + symlinkFile.getAbsolutePath()).waitFor());
++        assertEquals(0, Runtime.getRuntime().exec("ln -s " + f2.getAbsolutePath() + " " + symlinkFile.getAbsolutePath()).waitFor());
++
++        // Did we cache canonical path results? hope not!
++        assertEquals(symlinkFile.getCanonicalPath(), f2.getCanonicalPath());
++    }
+ }
+diff --git a/libcore/luni/src/test/java/libcore/java/net/FtpURLConnectionTest.java b/libcore/luni/src/test/java/libcore/java/net/FtpURLConnectionTest.java
+new file mode 100644
+index 0000000..806ae73
+--- /dev/null
++++ b/libcore/luni/src/test/java/libcore/java/net/FtpURLConnectionTest.java
+@@ -0,0 +1,85 @@
++/*
++ * Copyright (C) 2017 The Android Open Source Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package libcore.java.net;
++
++import junit.framework.TestCase;
++
++import java.io.IOException;
++import java.net.ServerSocket;
++import java.net.Socket;
++import java.net.URL;
++import java.util.Arrays;
++import java.util.List;
++import java.util.Locale;
++import java.util.concurrent.Callable;
++import java.util.concurrent.ExecutorService;
++import java.util.concurrent.Executors;
++import java.util.concurrent.Future;
++
++import sun.net.ftp.FtpLoginException;
++
++/**
++ * Tests URLConnections for ftp:// URLs.
++ */
++public class FtpURLConnectionTest extends TestCase {
++
++    private static final String FILE_PATH = "test/file/for/FtpURLConnectionTest.txt";
++    private static final String SERVER_HOSTNAME = "localhost";
++
++     // http://b/35784677
++    public void testCRLFInUserinfo() throws Exception {
++        List<String> encodedUserInfos = Arrays.asList(
++                // '\r\n' in the username with password
++                "user%0D%0Acommand:password",
++                // '\r\n' in the password
++                "user:password%0D%0Acommand",
++                // just '\n' in the password
++                "user:password%0Acommand",
++                // just '\n' in the username
++                "user%0Acommand:password"
++        );
++        for (String encodedUserInfo : encodedUserInfos) {
++            ExecutorService executor = Executors.newSingleThreadExecutor();
++            ServerSocket mockFtpServerSocket = new ServerSocket(0);
++            Future<Void> future = executor.submit(new Callable<Void>() {
++                @Override public Void call() throws Exception {
++                    Socket clientSocket = mockFtpServerSocket.accept();
++                    clientSocket.getOutputStream().write("220 o/".getBytes());
++                    clientSocket.close();
++                    return null;
++                }
++              });
++            executor.shutdown();
++
++            String urlString = String.format(Locale.US, "ftp://%s@%s:%s/%s",
++                    encodedUserInfo, SERVER_HOSTNAME, mockFtpServerSocket.getLocalPort(), FILE_PATH);
++            try {
++                new URL(urlString).openConnection().connect();
++                fail("Connection shouldn't have succeeded: " + urlString);
++            } catch (FtpLoginException expected) {
++                // The original message "Illegal carriage return" gets lost
++                // where FtpURLConnection.connect() translates the
++                // original FtpProtocolException into FtpLoginException.
++                assertEquals("Invalid username/password", expected.getMessage());
++            }
++
++            // Cleanup
++            future.get();
++            mockFtpServerSocket.close();
++        }
++    }
++}
+diff --git a/libcore/ojluni/src/main/java/java/io/FileSystem.java b/libcore/ojluni/src/main/java/java/io/FileSystem.java
+index aa00fa9..7db1651 100755
+--- a/libcore/ojluni/src/main/java/java/io/FileSystem.java
++++ b/libcore/ojluni/src/main/java/java/io/FileSystem.java
+@@ -232,8 +232,11 @@ abstract class FileSystem {
+ 
+     // Flags for enabling/disabling performance optimizations for file
+     // name canonicalization
+-    static boolean useCanonCaches      = true;
+-    static boolean useCanonPrefixCache = true;
++    // Android-changed: Disabled caches for security reasons (b/62301183)
++    //static boolean useCanonCaches      = true;
++    //static boolean useCanonPrefixCache = true;
++    static boolean useCanonCaches      = false;
++    static boolean useCanonPrefixCache = false;
+ 
+     private static boolean getBooleanProperty(String prop, boolean defaultVal) {
+         String val = System.getProperty(prop);
+diff --git a/libcore/ojluni/src/main/java/sun/net/ftp/impl/FtpClient.java b/libcore/ojluni/src/main/java/sun/net/ftp/impl/FtpClient.java
+index 61c4a95..fea9421 100755
+--- a/libcore/ojluni/src/main/java/sun/net/ftp/impl/FtpClient.java
++++ b/libcore/ojluni/src/main/java/sun/net/ftp/impl/FtpClient.java
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
++ * Copyright (c) 2009, 2017, Oracle and/or its affiliates. All rights reserved.
+  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+  *
+  * This code is free software; you can redistribute it and/or modify it
+@@ -518,7 +518,8 @@ public class FtpClient extends sun.net.ftp.FtpClient {
+      * @return <code>true</code> if the command was successful
+      * @throws IOException
+      */
+-    private boolean issueCommand(String cmd) throws IOException {
++    private boolean issueCommand(String cmd) throws IOException,
++            sun.net.ftp.FtpProtocolException {
+         if (!isConnected()) {
+             throw new IllegalStateException("Not connected");
+         }
+@@ -529,6 +530,12 @@ public class FtpClient extends sun.net.ftp.FtpClient {
+                 // ignore...
+             }
+         }
++        if (cmd.indexOf('\n') != -1) {
++            sun.net.ftp.FtpProtocolException ex
++                    = new sun.net.ftp.FtpProtocolException("Illegal FTP command");
++            ex.initCause(new IllegalArgumentException("Illegal carriage return"));
++            throw ex;
++        }
+         sendServer(cmd + "\r\n");
+         return readReply();
+     }
+@@ -1121,7 +1128,10 @@ public class FtpClient extends sun.net.ftp.FtpClient {
+      */
+     public void close() throws IOException {
+         if (isConnected()) {
+-            issueCommand("QUIT");
++            try {
++                issueCommand("QUIT");
++            } catch (FtpProtocolException e) {
++            }
+             loggedIn = false;
+         }
+         disconnect();
+@@ -1899,7 +1909,8 @@ public class FtpClient extends sun.net.ftp.FtpClient {
+         return null;
+     }
+ 
+-    private boolean sendSecurityData(byte[] buf) throws IOException {
++    private boolean sendSecurityData(byte[] buf) throws IOException,
++            sun.net.ftp.FtpProtocolException {
+         BASE64Encoder encoder = new BASE64Encoder();
+         String s = encoder.encode(buf);
+         return issueCommand("ADAT " + s);
