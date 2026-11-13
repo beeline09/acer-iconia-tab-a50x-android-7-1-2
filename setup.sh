@@ -17,16 +17,6 @@ else
   echo "  WARN: zImage-final не найден — соберите: ./build-all.sh (или kernel build.sh)"
 fi
 
-# 1b. Дыры repo-sync (repo врёт об успехе): раскладываем из aosp-gaps/
-GAPS_LIST="build/blueprint build/kati build/soong external/lld external/v8 frameworks/opt/emoji frameworks/opt/inputconnectioncommon packages/apps/Phone system/nvram tools/swt tools/tradefederation"
-for g in $GAPS_LIST; do
-  if [ -d "$SCRIPT_DIR/aosp-gaps/$g" ]; then
-    mkdir -p "$(dirname "$g")"
-    rm -rf "$g"
-    cp -a "$SCRIPT_DIR/aosp-gaps/$g" "$(dirname "$g")/"
-  fi
-done
-echo "  aosp-gaps: разложены"
 
 # 2. hardware/broadcom (драйверы Wi-Fi/BT bcmdhd — исходники, не патч)
 mkdir -p hardware
@@ -59,6 +49,17 @@ done
 
 # 4. webview: конфликтует с vendor-версией — убрать
 [ -d external/chromium-webview ] && rm -rf external/chromium-webview && echo "  chromium-webview: удалён"
+
+# 1b. Дыры repo-sync (repo врёт об успехе): раскладываем из aosp-gaps/
+GAPS_LIST="build/blueprint build/kati build/soong external/lld external/v8 frameworks/opt/emoji frameworks/opt/inputconnectioncommon packages/apps/Phone system/nvram tools/swt tools/tradefederation"
+for g in $GAPS_LIST; do
+  if [ -d "$SCRIPT_DIR/aosp-gaps/$g" ]; then
+    mkdir -p "$(dirname "$g")"
+    rm -rf "$g"
+    cp -a "$SCRIPT_DIR/aosp-gaps/$g" "$(dirname "$g")/"
+  fi
+done
+echo "  aosp-gaps: разложены"
 
 # 5. Тег для external/iw (git describe в version.sh)
 if [ -d .git ]; then git tag -a -f v4.1 -m v4.1 >/dev/null 2>&1 || true; fi
